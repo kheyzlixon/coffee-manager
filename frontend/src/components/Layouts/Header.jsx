@@ -12,9 +12,11 @@ import { CgProfile } from "react-icons/cg";
 import { BiMenuAltLeft } from "react-icons/bi";
 import Menya from "../../assets/Menya.png";
 import DropDown from "./DropDown";
-import Navbar from "./Navabar";
+import Navbar from "./Navbar";
 import { useSelector } from "react-redux";
 import { backend_url } from "../../server";
+import Cart from "../cart/Cart";
+import WishList from "../wishList/WishList";
 
 const Header = ({ activeHeading }) => {
   const { isAuthenticated, user, loading } = useSelector((state) => state.user);
@@ -22,6 +24,8 @@ const Header = ({ activeHeading }) => {
   const [searchData, setSearchData] = useState(null);
   const [active, setActive] = useState(false);
   const [dropDown, setDropDown] = useState(false);
+  const [openCart, setOpenCart] = useState(false);
+  const [openWishList, setOpenWishList] = useState(false);
 
   const handleSearchChange = (e) => {
     const term = e.target.value;
@@ -78,11 +82,14 @@ const Header = ({ activeHeading }) => {
                       searchData.map((i, index) => {
                         const d = i.name;
 
-                        const Product_name = d.replace(/\s+/g, "-");
+                        const Product_name = d.replace(/\s+/g, "~");
                         return (
                           // eslint-disable-next-line react/jsx-key
                           <Link to={`/product/${Product_name}`}>
-                            <div className="w-full flex items-start-py-3">
+                            <div
+                              className="w-full flex items-start-py-3"
+                              key={index}
+                            >
                               <img
                                 src={`${i.image_Url[0]?.url}`}
                                 alt=""
@@ -109,7 +116,7 @@ const Header = ({ activeHeading }) => {
           <div
             className={`${
               active === true ? "shadow-sm fixed top-0 left-0 z-10" : null
-            } transition hidden 800px:flex items-center justify-between w-full bg-[#3321c8] h-[70px]`}
+            } transition hidden 800px:flex items-center justify-between w-full bg-lime-900 h-[70px] shadow-xl`}
           >
             <div
               className={`${styles.section} relative ${styles.normalFlex} justify-between`}
@@ -143,20 +150,23 @@ const Header = ({ activeHeading }) => {
               </div>
               <div className="flex">
                 <div className={`${styles.normalFlex}`}>
-                  <div className="relative cursor-pointer mr-[15px]">
-                    <AiOutlineHeart size={30} color="rgb(255 255 255 / 83%)" />
-                    <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
+                  <div
+                    className="relative cursor-pointer mr-[15px]"
+                    onClick={() => setOpenWishList(true)}
+                  >
+                    <AiOutlineHeart size={30} className="text-white" />
+                    <span className="absolute left-5 top-0 rounded-full bg-red-700 w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
                       0
                     </span>
                   </div>
                 </div>
                 <div className={`${styles.normalFlex}`}>
-                  <div className="relative cursor-pointer mr-[15px]">
-                    <AiOutlineShoppingCart
-                      size={30}
-                      color="rgb(255 255 255 / 83%)"
-                    />
-                    <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
+                  <div
+                    className="relative cursor-pointer mr-[15px]"
+                    onClick={() => setOpenCart(true)}
+                  >
+                    <AiOutlineShoppingCart size={30} className="text-white" />
+                    <span className="absolute left-5 top-0 rounded-full bg-[#CD3923] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
                       1
                     </span>
                   </div>
@@ -166,7 +176,7 @@ const Header = ({ activeHeading }) => {
                     {isAuthenticated ? (
                       <Link to="/profile">
                         <img
-                          src={`${backend_url}${user.avatar}`}
+                          src={`${backend_url}${user.avatar.url}`}
                           className="w-[35px] h-[35px] rounded-full"
                           alt=""
                         />
@@ -178,6 +188,12 @@ const Header = ({ activeHeading }) => {
                     )}
                   </div>
                 </div>
+                {/* Cart popup */}
+                {openCart ? <Cart setOpenCart={setOpenCart} /> : null}
+                {/* WishList popup */}
+                {openWishList ? (
+                  <WishList setOpenWishList={setOpenWishList} />
+                ) : null}
               </div>
             </div>
           </div>
@@ -186,5 +202,11 @@ const Header = ({ activeHeading }) => {
     </>
   );
 };
+
+// Validation des props
+
+// Header.propTypes = {
+//   activeHeading: PropTypes.number.isRequired,
+// };
 
 export default Header;

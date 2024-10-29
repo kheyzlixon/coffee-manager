@@ -4,7 +4,7 @@ const CountDown = () => {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
 
@@ -33,7 +33,7 @@ const CountDown = () => {
     }
 
     return (
-      <span className="text-[25px] text-[#475ad2]" key={timeLeft}>
+      <span className="text-[25px] text-[#475ad2]" key={interval}>
         {timeLeft[interval]} {interval}{" "}
       </span>
     );

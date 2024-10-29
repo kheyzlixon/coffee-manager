@@ -1,14 +1,23 @@
 import styles from "../../styles/styles";
 import CountDown from "./CountDown.jsx";
+import Robuste from "../../assets/Robuste.png";
 
 const EventCard = (active) => {
   return (
-    <div className={`w-full block bg-white rounded-lg ${active ? "unset" : "-scroll-mb-12"} lg:flex p-2`}>
-      <div className="w-full lg:w-[50%] m-auto">
-        <img src="https://m.media-amazon.com/images/I/31Vle5fVdaL.jpg" alt="" />
+    <div
+      className={`w-full block bg-white rounded-lg ${
+        active ? "unset" : "-scroll-mb-12"
+      } lg:flex p-10`}
+    >
+      <div className="w-full lg:w-[30%] m-auto">
+        <img
+          src={Robuste}
+          alt=""
+          style={{ width: "300px", objectFit: "contain" }}
+        />
       </div>
       <div className="w-full lg:w-[50%] flex flex-col justify-center">
-        <h2 className={`${styles.productTitle}`}>Iphone 14pro max 8/256gb</h2>
+        <h2 className={`${styles.productTitle}`}>Robusta Coffee</h2>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla egestas
           libero vitae sem porta, nec vehicula nibh pellentesque. Curabitur nec
@@ -29,7 +38,7 @@ const EventCard = (active) => {
             </h5>
           </div>
           <span className="pr-3 font-[400] text-[17px] text-[#44a55e]">
-            120 kg left
+            120 kg sold
           </span>
         </div>
         <CountDown />
