@@ -4,14 +4,14 @@ import styles from "../styles/styles";
 import { useSearchParams } from "react-router-dom";
 import { productData } from "../static/data";
 import ProductCard from "../components/ProductCard/ProductCard";
-import Footer from "../components/Layout/Footer";
+import Footer from "../components/Layouts/Footer";
 
 const BestSellingPage = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
     const d =
-      productData && productData.sort((a, b) => b.total_left - a.total_left);
+      productData && productData.sort((a, b) => b.total_sold - a.total_sold);
     setData(d);
   }, []);
 

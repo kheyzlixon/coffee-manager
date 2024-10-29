@@ -1,19 +1,23 @@
-import LoginPage from '../src/pages/LoginPage'
-import SignUpPage from '../src/pages/SignUpPage'
-import ActivationPage from '../src/pages/ActivationPage'
-import HomePage from '../src/pages/HomePage'
-import ProductsPage from '../src/pages/ProductsPage'
-import BestSellingPage from '../src/pages/BestSellingPage'
-import EventsPage from '../src/pages/EventsPage'
-import FaqPage from '../src/pages/FaqPage.jsx'
+import LoginPage from "../src/pages/LoginPage";
+import SignUpPage from "../src/pages/SignUpPage";
+import ActivationPage from "../src/pages/ActivationPage";
+import HomePage from "../src/pages/HomePage";
+import ProductsPage from "../src/pages/ProductsPage";
+import BestSellingPage from "../src/pages/BestSellingPage";
+import EventsPage from "../src/pages/EventsPage";
+import FaqPage from "../src/pages/FaqPage";
+import ProductDetailsPage from "../src/pages/ProductDetailsPage";
+import ProfilePage from "../src/pages/ProfilePage";
 
 export {
-    LoginPage,
-    SignUpPage,
-    ActivationPage,
-    HomePage,
-    ProductsPage,
-    BestSellingPage,
-    EventsPage,
-    FaqPage,
+  LoginPage,
+  SignUpPage,
+  ActivationPage,
+  HomePage,
+  ProductsPage,
+  BestSellingPage,
+  EventsPage,
+  FaqPage,
+  ProductDetailsPage,
+  ProfilePage,
 };

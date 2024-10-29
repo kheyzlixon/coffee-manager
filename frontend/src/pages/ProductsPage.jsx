@@ -4,7 +4,7 @@ import styles from "../styles/styles";
 import { useSearchParams } from "react-router-dom";
 import { productData } from "../static/data";
 import ProductCard from "../components/ProductCard/ProductCard";
-import Footer from "../components/Layout/Footer";
+import Footer from "../components/Layouts/Footer";
 
 const ProductsPage = () => {
   const [searchParams] = useSearchParams();
@@ -14,7 +14,7 @@ const ProductsPage = () => {
   useEffect(() => {
     if (categoryData === null) {
       const d =
-        productData && productData.sort((a, b) => a.total_left - b.total_left);
+        productData && productData.sort((a, b) => a.total_sold - b.total_sold);
       setData(d);
     } else {
       const d =

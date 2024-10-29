@@ -78,7 +78,7 @@ const ProductCard = ({ data }) => {
               </h4>
             </div>
             <span className="font-[400] text-[17px] text-[#68d284]">
-              {data.total_left} kg left
+              {data.total_sold} kg sold
             </span>
           </div>
         </Link>
@@ -111,7 +111,6 @@ const ProductCard = ({ data }) => {
           <AiOutlineShoppingCart
             size={22}
             className="cursor-pointer absolute right-2 top-24"
-            
             color="#444"
             title="Add to cart"
           />

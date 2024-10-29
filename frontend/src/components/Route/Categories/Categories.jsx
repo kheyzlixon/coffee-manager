@@ -36,12 +36,12 @@ const Categories = () => {
                 <div
                   key={i.id}
                   onClick={() => handleSubmit(i)}
-                  className="w-full h-[100px] flex items-center justify-between cursor-pointer overflow-hidden"
+                  className="w-full h-[100px] flex items-center justify-between gap-x-0 cursor-pointer overflow-hidden"
                 >
                   <h5 className={`text-[18px] leading-[1.3]`}>{i.title}</h5>
                   <img
                     src={i.image_Url}
-                    className="w-[120px] object-cover"
+                    className="w-[60px] object-cover"
                     alt=""
                   />
                 </div>

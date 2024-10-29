@@ -1,6 +1,6 @@
 import Header from "../components/Layouts/Header";
 import EventCard from "../components/Events/EventCard";
-import Footer from "../components/Layout/Footer";
+import Footer from "../components/Layouts/Footer";
 
 const EventsPage = () => {
   return (
