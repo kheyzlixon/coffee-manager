@@ -22,11 +22,15 @@ const Hero = () => {
             Best collections of <br /> Green Coffee
           </h1>
           <p className="pt-5 text-[20px] font-[Poppins] font-[400] text-slate-100">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. <br /> 
-            Nulla egestas libero vitae sem porta, nec vehicula nibh pellentesque.<br /> 
-            Curabitur nec bibendum nibh, id finibus ante. Proin quis blandit quam. <br /> 
-            Morbi pulvinar auctor lectus, ornare eleifend odio dictum quis. <br /> 
-            </p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. <br />
+            Nulla egestas libero vitae sem porta, nec vehicula nibh
+            pellentesque.
+            <br />
+            Curabitur nec bibendum nibh, id finibus ante. Proin quis blandit
+            quam. <br />
+            Morbi pulvinar auctor lectus, ornare eleifend odio dictum quis.{" "}
+            <br />
+          </p>
           <Link to="/products" className="inline-block">
             <div className={`${styles.button} mt-5`}>
               <span className="text-[#fff] font-[Poppins] text-[18px]">
