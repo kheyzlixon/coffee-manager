@@ -14,7 +14,7 @@ const Navbar = ({ active }) => {
                 active === index + 1
                   ? "text-green-400"
                   : "text-slate-900 800px:text-white"
-              } pb-[30px] font-[500] px-6 cursor-pointer}`}
+              } pb-[30px] 800px:pb-0 font-[500] px-6 cursor-pointer}`}
             >
               {i.title}
             </Link>
