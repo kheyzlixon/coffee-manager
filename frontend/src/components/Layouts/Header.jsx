@@ -17,15 +17,17 @@ import { useSelector } from "react-redux";
 import { backend_url } from "../../server";
 import Cart from "../cart/Cart";
 import WishList from "../wishList/WishList";
+import { RxCross1 } from "react-icons/rx";
 
 const Header = ({ activeHeading }) => {
-  const { isAuthenticated, user, loading } = useSelector((state) => state.user);
+  const { isAuthenticated, user } = useSelector((state) => state.user);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchData, setSearchData] = useState(null);
   const [active, setActive] = useState(false);
   const [dropDown, setDropDown] = useState(false);
   const [openCart, setOpenCart] = useState(false);
   const [openWishList, setOpenWishList] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleSearchChange = (e) => {
     const term = e.target.value;
@@ -49,61 +51,240 @@ const Header = ({ activeHeading }) => {
 
   return (
     <>
-      {loading ? null : (
-        <div>
-          <div className={`${styles.section}`}>
-            <div className="hidden 800px:h-[50px] 800px:my-[20px] 800px:flex items-center justify-between">
-              <div>
-                <Link to="/">
-                  <img
-                    src={Menya}
-                    alt="Logo"
-                    style={{ width: "200px", height: "auto" }}
-                  />
-                </Link>
-              </div>
+      <div className={`${styles.section}`}>
+        <div className="hidden 800px:h-[50px] 800px:my-[20px] 800px:flex items-center justify-between">
+          <div>
+            <Link to="/">
+              <img
+                src={Menya}
+                alt="Logo"
+                style={{ width: "200px", height: "auto" }}
+              />
+            </Link>
+          </div>
 
-              {/* Search box */}
-              <div className="w-[50%] relative">
+          {/* Search box */}
+          <div className="w-[50%] relative">
+            <input
+              type="text"
+              placeholder="Search Product..."
+              value={searchTerm}
+              onChange={handleSearchChange}
+              className="h-[40px] w-full px-2 border-[#3957db] border-[2px] rounded-md"
+            />
+            <AiOutlineSearch
+              size={30}
+              className="absolute right-2 top-1.5 cursor-pointer"
+            />
+            {searchData && searchData.length !== 0 ? (
+              <div className="absolute min-h-[30vh] bg-slate-50 shadow-sm-2 z-[9] p-4">
+                {searchData &&
+                  searchData.map((i, index) => {
+                    const d = i.name;
+
+                    const Product_name = d.replace(/\s+/g, "~");
+                    return (
+                      // eslint-disable-next-line react/jsx-key
+                      <Link to={`/product/${Product_name}`}>
+                        <div
+                          className="w-full flex items-start-py-3"
+                          key={index}
+                        >
+                          <img
+                            src={`${i.image_Url[0]?.url}`}
+                            alt=""
+                            className="w-[40px] h-[40px] mr-[10px]"
+                          />
+                          <h1>{i.name}</h1>
+                        </div>
+                      </Link>
+                    );
+                  })}
+              </div>
+            ) : null}
+          </div>
+          <div className={`${styles.button}`}>
+            <Link to="/seller">
+              <h1 className="text-[#fff] flex items-center">
+                Become Seller
+                <IoIosArrowForward className="ml-1" />
+              </h1>
+            </Link>
+          </div>
+        </div>
+      </div>
+      <div
+        className={`${
+          active === true ? "shadow-sm fixed top-0 left-0 z-10" : null
+        } transition hidden 800px:flex items-center justify-between w-full bg-lime-900 h-[70px] shadow-xl`}
+      >
+        <div
+          className={`${styles.section} relative ${styles.normalFlex} justify-between`}
+        >
+          {/* categories */}
+          <div>
+            <div className="relative h-[60px] mt-[10px] w-[270px] 1000px:block">
+              <BiMenuAltLeft size={30} className="absolute top-3 left-2" />
+              <button
+                className={`h-[100%] w-full flex justify-between items-center pl-10 bg-white font-sans text-lg font-[500] select-none rounded-t-md`}
+                onClick={() => setDropDown(!dropDown)}
+              >
+                All categories
+              </button>
+              <IoIosArrowDown
+                size={20}
+                className="absolute right-2 top-5 cursor-pointer"
+                onClick={() => setDropDown(!dropDown)}
+              />
+              {dropDown ? (
+                <DropDown
+                  categoriesData={categoriesData}
+                  setDropDown={setDropDown}
+                />
+              ) : null}
+            </div>
+          </div>
+          {/* navItems */}
+          <div className={`${styles.normalFlex}`}>
+            <Navbar active={activeHeading} />
+          </div>
+          <div className="flex">
+            <div className={`${styles.normalFlex}`}>
+              <div
+                className="relative cursor-pointer mr-[15px]"
+                onClick={() => setOpenWishList(true)}
+              >
+                <AiOutlineHeart size={30} className="text-white" />
+                <span className="absolute left-5 top-0 rounded-full bg-red-700 w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
+                  0
+                </span>
+              </div>
+            </div>
+            <div className={`${styles.normalFlex}`}>
+              <div
+                className="relative cursor-pointer mr-[15px]"
+                onClick={() => setOpenCart(true)}
+              >
+                <AiOutlineShoppingCart size={30} className="text-white" />
+                <span className="absolute left-5 top-0 rounded-full bg-[#CD3923] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
+                  1
+                </span>
+              </div>
+            </div>
+            <div className={`${styles.normalFlex}`}>
+              <div className="relative cursor-pointer mr-[15px]">
+                {isAuthenticated ? (
+                  <Link to="/profile">
+                    <img
+                      src={`${backend_url}${user.avatar.url}`}
+                      className="w-[35px] h-[35px] rounded-full border-[2px] border-[#fff]"
+                      alt=""
+                    />
+                  </Link>
+                ) : (
+                  <Link to="/login">
+                    <CgProfile size={30} color="rgb(255 255 255 / 83%)" />
+                  </Link>
+                )}
+              </div>
+            </div>
+            {/* Cart popup */}
+            {openCart ? <Cart setOpenCart={setOpenCart} /> : null}
+            {/* WishList popup */}
+            {openWishList ? (
+              <WishList setOpenWishList={setOpenWishList} />
+            ) : null}
+          </div>
+        </div>
+      </div>
+
+      {/* mobile header */}
+      <div
+        className={`${
+          active === true ? "shadow-sm fixed top-0 left-0 z-10" : null
+        } w-full h-[60px] fixed bg-white z-50 top-0 left-0 shadow-sm 800px:hidden`}
+      >
+        <div className="w-full flex items-center justify-between">
+          <div>
+            <BiMenuAltLeft
+              size={40}
+              className="ml-4"
+              onClick={() => setOpen(true)}
+            />
+          </div>
+          <div>
+            <Link to="/">
+              <img
+                src={Menya}
+                alt=""
+                className="mt-3 cursor-pointer w-[50px]"
+              />
+            </Link>
+          </div>
+          <div>
+            <div className="relative mr-[20px]">
+              <AiOutlineShoppingCart size={30} />
+              <span className="absolute left-5 top-0 rounded-full bg-[#CD3923] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
+                1
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* header sidebar */}
+        {open && (
+          <div
+            className={`fixed w-full bg-[#0000005f] z-20 h-full top-0 left-0`}
+          >
+            <div className="fixed w-[60%] bg-[#fff] h-screen top-0 left-0 z-10 overflow-y-scroll">
+              <div className="w-full justify-between flex pr-3">
+                <div>
+                  <div className="relative mr-[15px]">
+                    <AiOutlineHeart size={30} className="mt-5 ml-3" />
+                    <span className="absolute right-0 top-0 rounded-full bg-[#CD3923] w-4 h-4 top left-8 p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
+                      0
+                    </span>
+                  </div>
+                </div>
+                <RxCross1
+                  size={20}
+                  className="ml-4 mt-5"
+                  onClick={() => setOpen(false)}
+                />
+              </div>
+              <div className="my-8 w-[92%] m-auto h-[40px] relative">
                 <input
-                  type="text"
+                  type="search"
                   placeholder="Search Product..."
                   value={searchTerm}
                   onChange={handleSearchChange}
                   className="h-[40px] w-full px-2 border-[#3957db] border-[2px] rounded-md"
                 />
-                <AiOutlineSearch
-                  size={30}
-                  className="absolute right-2 top-1.5 cursor-pointer"
-                />
-                {searchData && searchData.length !== 0 ? (
-                  <div className="absolute min-h-[30vh] bg-slate-50 shadow-sm-2 z-[9] p-4">
-                    {searchData &&
-                      searchData.map((i, index) => {
-                        const d = i.name;
+                {searchData && (
+                  <div className="absolute bg-[#fff] z-10 shadow w-full left-0 p-3">
+                    {searchData.map((i) => {
+                      const d = i.name;
 
-                        const Product_name = d.replace(/\s+/g, "~");
-                        return (
-                          // eslint-disable-next-line react/jsx-key
-                          <Link to={`/product/${Product_name}`}>
-                            <div
-                              className="w-full flex items-start-py-3"
-                              key={index}
-                            >
-                              <img
-                                src={`${i.image_Url[0]?.url}`}
-                                alt=""
-                                className="w-[40px] h-[40px] mr-[10px]"
-                              />
-                              <h1>{i.name}</h1>
-                            </div>
-                          </Link>
-                        );
-                      })}
+                      const Product_name = d.replace(/\s+/g, "-");
+                      return (
+                        // eslint-disable-next-line react/jsx-key
+                        <Link to={`/product/${Product_name}`}>
+                          <div className="flex items-center">
+                            <img
+                              src={`${i.image_Url[0]?.url}`}
+                              alt=""
+                              className="w-[50px] mr-2"
+                            />
+                            <h5>{i.name}</h5>
+                          </div>
+                        </Link>
+                      );
+                    })}
                   </div>
-                ) : null}
+                )}
               </div>
-              <div className={`${styles.button}`}>
+              <Navbar active={activeHeading} />
+              <div className={`${styles.button} ml-4 !rounded-[4px]`}>
                 <Link to="/seller">
                   <h1 className="text-[#fff] flex items-center">
                     Become Seller
@@ -111,94 +292,44 @@ const Header = ({ activeHeading }) => {
                   </h1>
                 </Link>
               </div>
-            </div>
-          </div>
-          <div
-            className={`${
-              active === true ? "shadow-sm fixed top-0 left-0 z-10" : null
-            } transition hidden 800px:flex items-center justify-between w-full bg-lime-900 h-[70px] shadow-xl`}
-          >
-            <div
-              className={`${styles.section} relative ${styles.normalFlex} justify-between`}
-            >
-              {/* categories */}
-              <div>
-                <div className="relative h-[60px] mt-[10px] w-[270px] 1000px:block">
-                  <BiMenuAltLeft size={30} className="absolute top-3 left-2" />
-                  <button
-                    className={`h-[100%] w-full flex justify-between items-center pl-10 bg-white font-sans text-lg font-[500] select-none rounded-t-md`}
-                    onClick={() => setDropDown(!dropDown)}
-                  >
-                    All categories
-                  </button>
-                  <IoIosArrowDown
-                    size={20}
-                    className="absolute right-2 top-5 cursor-pointer"
-                    onClick={() => setDropDown(!dropDown)}
-                  />
-                  {dropDown ? (
-                    <DropDown
-                      categoriesData={categoriesData}
-                      setDropDown={setDropDown}
-                    />
-                  ) : null}
-                </div>
-              </div>
-              {/* navItems */}
-              <div className={`${styles.normalFlex}`}>
-                <Navbar active={activeHeading} />
-              </div>
-              <div className="flex">
-                <div className={`${styles.normalFlex}`}>
-                  <div
-                    className="relative cursor-pointer mr-[15px]"
-                    onClick={() => setOpenWishList(true)}
-                  >
-                    <AiOutlineHeart size={30} className="text-white" />
-                    <span className="absolute left-5 top-0 rounded-full bg-red-700 w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
-                      0
-                    </span>
-                  </div>
-                </div>
-                <div className={`${styles.normalFlex}`}>
-                  <div
-                    className="relative cursor-pointer mr-[15px]"
-                    onClick={() => setOpenCart(true)}
-                  >
-                    <AiOutlineShoppingCart size={30} className="text-white" />
-                    <span className="absolute left-5 top-0 rounded-full bg-[#CD3923] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
-                      1
-                    </span>
-                  </div>
-                </div>
-                <div className={`${styles.normalFlex}`}>
-                  <div className="relative cursor-pointer mr-[15px]">
-                    {isAuthenticated ? (
+              <br />
+              <br />
+              <br />
+              <div className="flex w-full justify-center pb-10">
+                {isAuthenticated ? (
+                  <>
+                    <div>
                       <Link to="/profile">
                         <img
                           src={`${backend_url}${user.avatar.url}`}
-                          className="w-[35px] h-[35px] rounded-full border-[2px] border-[#fff]"
                           alt=""
+                          className="w-[35px] h-[35px] rounded-full border-[3px] border-green-400"
                         />
                       </Link>
-                    ) : (
-                      <Link to="/login">
-                        <CgProfile size={30} color="rgb(255 255 255 / 83%)" />
-                      </Link>
-                    )}
-                  </div>
-                </div>
-                {/* Cart popup */}
-                {openCart ? <Cart setOpenCart={setOpenCart} /> : null}
-                {/* WishList popup */}
-                {openWishList ? (
-                  <WishList setOpenWishList={setOpenWishList} />
-                ) : null}
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      to="/login"
+                      className="text-[18px] pr-[10px] text-slate-900"
+                    >
+                      Login /
+                    </Link>
+                    <Link
+                      to="/sign-up"
+                      className="text-[18px] pr-[10px] text-slate-900"
+                    >
+                      {" "}
+                      Sign Up
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </>
   );
 };
