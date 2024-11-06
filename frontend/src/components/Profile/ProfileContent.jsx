@@ -23,14 +23,14 @@ const ProfileContent = ({ active }) => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full pt-14 800px:pt-0">
       {/* Profile page */}
       {active === 1 && (
         <>
           <div className="flex justify-center w-full">
             <div className="relative">
               <img
-                className="w-[150px] h-[150px] rounded-full object-cover border-[3px] border-green-400"
+                className="w-[100px] h-[100px] 800px:w-[150px] 800px:h-[150px] rounded-full object-cover border-[3px] border-green-400"
                 src={`${backend_url}${user?.avatar.url}`}
                 alt=""
               />
