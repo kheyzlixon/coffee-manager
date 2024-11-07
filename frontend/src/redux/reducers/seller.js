@@ -1,7 +1,10 @@
 import { createReducer } from "@reduxjs/toolkit";
 
 const initialState = {
-    isSeller: false,
+    // isSeller: false,
+    isLoading:true,
+    // error: null,
+    // seller: null,
 };
 
 export const sellerReducer = createReducer(initialState, (builder) => {

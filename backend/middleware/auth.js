@@ -1,11 +1,10 @@
 const ErrorHandler = require("../utils/ErrorHandler");
-const catchAsyncError = require("./catchAsyncErrors");
 const jwt = require("jsonwebtoken");
 const catchAsyncErrors = require("./catchAsyncErrors");
 const User = require("../models/user");
 const Shop = require("../models/shop");
 
-exports.isAuthenticated = catchAsyncError(async(req, res, next) => {
+exports.isAuthenticated = catchAsyncErrors(async(req, res, next) => {
     const { token } = req.cookies;
 
     if (!token) {
@@ -19,7 +18,7 @@ exports.isAuthenticated = catchAsyncError(async(req, res, next) => {
     next();
 });
 
-exports.isSeller = catchAsyncError(async(req, res, next) => {
+exports.isSeller = catchAsyncErrors(async(req, res, next) => {
     const { seller_token } = req.cookies;
 
     if (!seller_token) {
