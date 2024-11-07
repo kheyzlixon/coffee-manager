@@ -12,6 +12,8 @@ app.use(
   cors({
     origin: "http://localhost:3000",
     credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization", "x-csrf-token"],
+    exposedHeaders: ["*"],
   })
 );
 app.use("/", express.static("../uploads"));
@@ -27,8 +29,10 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
 
 // Import routes
 const user = require("./controllers/user");
+const shop = require("./controllers/shop");
 
 app.use("/api/v2/user", user);
+app.use("/api/v2/shop", shop);
 
 // It's for ErrorHandling
 app.use(ErrorHandler);
