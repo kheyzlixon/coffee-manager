@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { createProduct } from "../../redux/actions/product";
 import { categoriesData } from "../../static/data";
 import { AiOutlinePlusCircle } from "react-icons/ai";
+import { toast } from "react-toastify";
 
 const CreateProduct = () => {
   const { seller } = useSelector((state) => state.seller);
+  const { success, error } = useSelector((state) => state.products);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -18,8 +21,34 @@ const CreateProduct = () => {
   const [discountPrice, setDiscountPrice] = useState();
   const [stock, setStock] = useState();
 
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+    if (success) {
+      toast.success("Product created successfully!");
+      navigate("/dashboard");
+      window.location.reload();
+    }
+  }, [dispatch, error, success, navigate]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const newForm = new FormData();
+
+    images.forEach((image) => {
+      newForm.append("images", image);
+    });
+    newForm.append("name", name);
+    newForm.append("description", description);
+    newForm.append("category", category);
+    newForm.append("tags", tags);
+    newForm.append("originalPrice", originalPrice);
+    newForm.append("discountPrice", discountPrice);
+    newForm.append("stock", stock);
+    newForm.append("shopId", seller._id);
+    dispatch(createProduct(newForm));
   };
 
   const handleImageChange = (e) => {
@@ -53,14 +82,17 @@ const CreateProduct = () => {
           <label htmlFor="" className="pb-2">
             Description <span className="text-red-500">*</span>
           </label>
-          <input
+          <textarea
+            cols="30"
+            required
+            rows="8"
             type="text"
             name="description"
             value={description}
-            className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring focus:ring-blue-500 sm:text-sm"
+            className="mt-2 appearance-none block w-full px-3 pt-2 border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring focus:ring-blue-500 sm:text-sm"
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Enter your product Description ..."
-          />
+          ></textarea>
         </div>
         <br />
         <div>
@@ -72,7 +104,7 @@ const CreateProduct = () => {
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
-            <option value="Choose category">Choose category</option>
+            <option value="Choose a category">Choose a category</option>
             {categoriesData &&
               categoriesData.map((i) => (
                 <option value={i.title} key={i.title}>
@@ -129,7 +161,7 @@ const CreateProduct = () => {
             Product Stock <span className="text-red-500">*</span>
           </label>
           <input
-            type="text"
+            type="number"
             name="stock"
             value={stock}
             className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring focus:ring-blue-500 sm:text-sm"
@@ -167,11 +199,13 @@ const CreateProduct = () => {
         </div>
         <br />
         <div>
-          <input
+          <button
             type="submit"
             value="create"
-            className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring focus:ring-blue-500 sm:text-sm"
-          />
+            className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring focus:ring-blue-500 bg-blue-500 font-semibold text-white focus:bg-blue hover:bg-blue-800 sm:text-sm"
+          >
+            Create
+          </button>
         </div>
       </form>
     </div>

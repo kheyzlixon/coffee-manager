@@ -5,7 +5,7 @@ import Footer from "../components/Layouts/Footer";
 const EventsPage = () => {
   return (
     <div>
-      <Header activeHeading={4} />
+      <Header activeHeading={6} />
       <EventCard active={true} />
       <EventCard active={false} />
       <Footer />

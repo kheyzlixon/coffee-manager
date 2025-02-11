@@ -6,8 +6,6 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const morgan = require("morgan");
 
-app.use(express.json());
-app.use(cookieParser());
 app.use(
   cors({
     origin: "http://localhost:3000",
@@ -16,6 +14,8 @@ app.use(
     exposedHeaders: ["*"],
   })
 );
+app.use(express.json());
+app.use(cookieParser());
 app.use("/", express.static("../uploads"));
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 app.use(morgan("dev"));
@@ -30,9 +30,11 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
 // Import routes
 const user = require("./controllers/user");
 const shop = require("./controllers/shop");
+const product = require("./controllers/product");
 
 app.use("/api/v2/user", user);
 app.use("/api/v2/shop", shop);
+app.use("/api/v2/product", product);
 
 // It's for ErrorHandling
 app.use(ErrorHandler);
