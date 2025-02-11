@@ -1,4 +1,3 @@
-import React from "react";
 import DashboardHeader from "../../components/Shop/Layouts/DashboardHeader";
 import DashboardSideBar from "../../components/Shop/Layouts/DashboardSideBar";
 import CreateProduct from "../../components/Shop/CreateProduct";

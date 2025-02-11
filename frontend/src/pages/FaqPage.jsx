@@ -5,7 +5,7 @@ import Header from "../components/Layouts/Header";
 const FaqPage = () => {
   return (
     <div>
-      <Header activeHeading={5} />
+      <Header activeHeading={7} />
       <Faq />
       <Footer />
     </div>

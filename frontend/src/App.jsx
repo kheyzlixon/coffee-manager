@@ -15,7 +15,11 @@ import {
   ProfilePage,
   ShopLoginPage,
 } from "./Routes/Routes";
-import { ShopHomePage, ShopDashboardPage, ShopCreateProduct } from "./Routes/ShopRoutes";
+import {
+  ShopHomePage,
+  ShopDashboardPage,
+  ShopCreateProduct,
+} from "./Routes/ShopRoutes";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { loadUser, loadSeller } from "./redux/actions/user";
