@@ -1,4 +1,5 @@
 const express = require("express");
+const { isSeller } = require("../middleware/auth");
 const router = express.Router();
 const Product = require("../models/product");
 const Shop = require("../models/shop");
@@ -7,30 +8,88 @@ const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const ErrorHandler = require("../utils/ErrorHandler");
 
 // create product
-router.post("/create-product", upload.array("images"), catchAsyncErrors(async(req, res, next) => {
+router.post(
+  "/create-product",
+  upload.array("images"),
+  catchAsyncErrors(async (req, res, next) => {
     try {
-        const shopId = req.body.shopId;
-        const shop = await Shop.findById(shopId);
+      const shopId = req.body.shopId;
+      const shop = await Shop.findById(shopId);
 
-        if (!shop) {
-            return next(new ErrorHandler("Shop Id is invalid", 400));
-        } else {
-            const files = req.files;
-            const imageUrls = files.map((file) => `${file.filename}`);
-            const productData = req.body;
-            productData.images = imageUrls;
-            productData.shop = shop;
-            
-            const product = await Product.create(productData);
+      if (!shop) {
+        return next(new ErrorHandler("Shop Id is invalid", 400));
+      } else {
+        const files = req.files;
+        const imageUrls = files.map((file) => `${file.filename}`);
+        const productData = req.body;
+        productData.images = imageUrls;
+        productData.shop = shop;
 
-            res.status(201).json({
-                success: true,
-                product,
-            });
-        }
+        const product = await Product.create(productData);
+
+        res.status(201).json({
+          success: true,
+          product,
+        });
+      }
     } catch (error) {
-       return next(new ErrorHandler(error, 400)); 
+      return next(new ErrorHandler(error, 400));
     }
-}))
+  })
+);
+
+// get all products of a shop
+
+router.get(
+  "/get-all-products/:shopId",
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const products = await Product.find({ shopId: req.params.shopId });
+
+      res.status(201).json({
+        success: true,
+        products,
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error, 400));
+    }
+  })
+);
+
+// Delete product of a shop
+router.delete("/delete-shop-product/:id", isSeller, async (req, res, next) => {
+  try {
+    const productId = req.params.id;
+
+    const product = await Product.findByIdAndDelete(productId);
+
+    if (!product) {
+      return next(new ErrorHandler("Product not found with this id ! ", 500));
+    }
+
+    res.status(201).json({
+      success: true,
+      message: "Product deleted successfully ! ",
+    });
+  } catch (error) {
+    return next(new ErrorHandler(error, 400));
+  }
+});
+
+// Update a product of a shop
+// router.put("/update-shop-product/:id", isSeller, async (req, res, next) => {
+//   try {
+//     const productId = req.params.id;
+
+//     const product = await Product.findOneAndUpdate(productId);
+
+//     if (!product) {
+//       return next(new ErrorHandler("Product not found with this id ! ", 500));
+//     }
+
+//   } catch (error) {
+//     return next(new ErrorHandler(error, 400));
+//   }
+// });
 
 module.exports = router;
