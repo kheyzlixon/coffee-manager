@@ -24,9 +24,4 @@ const Navbar = ({ active }) => {
   );
 };
 
-// Validation des props avec PropTypes
-// Navbar.propTypes = {
-//   active: PropTypes.number.isRequired,
-// };
-
 export default Navbar;

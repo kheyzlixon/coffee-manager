@@ -22,9 +22,9 @@ const AllProducts = () => {
     }
   }, [dispatch, seller]);
 
-  const handleDeleteProduct = (id) => {
-    dispatch(deleteProductShop(id));
-    window.location.reload();
+  const handleDeleteProduct = async (id) => {
+    await dispatch(deleteProductShop(id));
+    dispatch(getAllProductsShop(seller._id));
   };
 
   const columns = [
@@ -112,15 +112,15 @@ const AllProducts = () => {
       {isLoading ? (
         <Loader />
       ) : (
-          <div className="w-full m-10 bg-white shadow  rounded-[4px] p-3 overflow-y-scroll">
-            <DataGrid
-              rows={row}
-              columns={columns}
-              pageSize={10}
-              disableRowSelectionOnClick
-              autoHeight
-            />
-          </div>
+        <div className="w-full m-10 bg-white shadow  rounded-[4px] p-3">
+          <DataGrid
+            rows={row}
+            columns={columns}
+            pageSize={10}
+            disableRowSelectionOnClick
+            autoHeight
+          />
+        </div>
       )}
     </>
   );

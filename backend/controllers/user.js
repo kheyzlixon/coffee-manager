@@ -141,38 +141,46 @@ router.post(
 );
 
 // load user
-router.get("/get-user", isAuthenticated, catchAsyncErrors( async (req, res, next) => {
-  try {
-    const user = await User.findById(req.user.id);
+router.get(
+  "/get-user",
+  isAuthenticated,
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const user = await User.findById(req.user.id);
 
-    if (!user) {
-      return next(new ErrorHandler("User doesn't exists!", 400));
+      if (!user) {
+        return next(new ErrorHandler("User doesn't exists!", 400));
+      }
+
+      res.status(200).json({
+        success: true,
+        user,
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 500));
     }
-
-    res.status(200).json({
-      success: true,
-      user,
-    });
-  } catch (error) {
-    return next(new ErrorHandler(error.message, 500));
-  }
-}))
+  })
+);
 
 // log out user
-router.get("/logout", isAuthenticated, catchAsyncErrors(async(req, res, next) => {
-  try {
-    res.cookie("token", null, {
-      expires: new Date(Date.now()),
-      httpOnly: true,
-    });
+router.get(
+  "/logout",
+  isAuthenticated,
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      res.cookie("token", null, {
+        expires: new Date(Date.now()),
+        httpOnly: true,
+      });
 
-    res.status(201).json({
-      success: true,
-      message: "Logget out successfullt"
-    })
-  } catch (error) {
-    return next(new ErrorHandler(error.message, 500));
-  }
-}))
+      res.status(201).json({
+        success: true,
+        message: "Logged out successfullt",
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  })
+);
 
 module.exports = router;

@@ -7,6 +7,8 @@ import HomePage from "../pages/HomePage";
 import ProductsPage from "../pages/ProductsPage";
 import BestSellingPage from "../pages/BestSellingPage";
 import EventsPage from "../pages/EventsPage";
+import BlogPage from "../pages/BlogPage";
+import NewsFeedPage from "../pages/NewsFeedPage";
 import FaqPage from "../pages/FaqPage";
 import ProductDetailsPage from "../pages/ProductDetailsPage";
 import ProfilePage from "../pages/ProfilePage";
@@ -20,6 +22,8 @@ export {
   ProductsPage,
   BestSellingPage,
   EventsPage,
+  BlogPage,
+  NewsFeedPage,
   FaqPage,
   ProductDetailsPage,
   ProfilePage,

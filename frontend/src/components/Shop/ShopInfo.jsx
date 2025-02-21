@@ -1,11 +1,13 @@
-import { backend_url } from "../../server";
+import { backend_url, server } from "../../server";
 import { useSelector } from "react-redux";
 import styles from "../../styles/styles";
+import axios from "axios";
 const ShopInfo = ({ isOwner }) => {
   const { seller } = useSelector((state) => state.seller);
 
   const handleLogout = () => {
-
+    axios.get(`${server}/shop/logout`, { withCredentials: true });
+    window.location.reload();
   };
 
   return (
@@ -50,7 +52,10 @@ const ShopInfo = ({ isOwner }) => {
           <div className={`${styles.button} w-full h-[42px] !rounded-[5px]`}>
             <span className="text-white">Edit Shop</span>
           </div>
-          <div className={`${styles.button} w-full h-[42px] !rounded-[5px]`} onClick={handleLogout}>
+          <div
+            className={`${styles.button} w-full h-[42px] !rounded-[5px]`}
+            onClick={handleLogout}
+          >
             <span className="text-white">Log Out</span>
           </div>
         </div>

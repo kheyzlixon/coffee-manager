@@ -32,8 +32,8 @@ export const navItems = [
     url: "/products",
   },
   {
-    title: "Social Media",
-    url: "/social-media",
+    title: "Network",
+    url: "/news-feed",
   },
   {
     title: "Blog",

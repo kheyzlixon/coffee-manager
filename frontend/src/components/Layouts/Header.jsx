@@ -333,11 +333,4 @@ const Header = ({ activeHeading }) => {
     </>
   );
 };
-
-// Validation des props
-
-// Header.propTypes = {
-//   activeHeading: PropTypes.number.isRequired,
-// };
-
 export default Header;

@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router-dom"; // Utiliser useNavigate
 import styles from "../../styles/styles";
 
-const DropDown = ({ categoriesData, setDropDown }) => { // Déstructurer les props ici
-  const navigate = useNavigate(); // Utilisation de useNavigate
+const DropDown = ({ categoriesData, setDropDown }) => { 
+  const navigate = useNavigate();
 
   const handleSubmit = (i) => {
-    navigate(`/products?category=${i.title}`); // Naviguer vers la nouvelle URL
-    setDropDown(false); // Fermer le dropdown
-    window.location.reload(); // Recharger la page (facultatif, à utiliser avec prudence)
+    navigate(`/products?category=${i.title}`);
+    setDropDown(false);
+    window.location.reload(); 
   };
 
   return (
